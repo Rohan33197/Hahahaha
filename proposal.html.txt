@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise for You</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<style>
+body {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+background: linear-gradient(to bottom, #FFD1DC, #FF6F61, #FFE5B4);
+font-family: 'Dancing Script', cursive;
+text-align: center;
+flex-direction: column;
+overflow: hidden;
+position: relative;
+}
+#message {
+font-size: 24px;
+font-weight: bold;
+color: #FF2E63;
+margin-bottom: 20px;
+}
+.btn {
+font-size: 20px;
+padding: 10px 20px;
+margin: 10px;
+border: none;
+cursor: pointer;
+border-radius: 10px;
+transition: transform 0.2s ease-in-out;
+}
+.btn:hover {
+transform: scale(1.1);
+}
+.yes-btn {
+background-color: #FF2E63;
+color: white;
+animation: pulse 1s infinite;
+}
+.no-btn {
+background-color: #FF6F61;
+color: white;
+}
+@keyframes pulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.1); }
+100% { transform: scale(1); }
+}
+#proposal {
+display: none;
+font-size: 28px;
+font-weight: bold;
+color: #FF2E63;
+margin-top: 20px;
+white-space: nowrap;
+overflow: hidden;
+border-right: 3px solid transparent;
+animation: glowText 2s infinite alternate;
+}
+@keyframes glowText {
+from { text-shadow: 0 0 5px #fff, 0 0 10px #FF2E63; }
+to { text-shadow: 0 0 10px #fff, 0 0 20px #FF2E63; }
+}
+@keyframes floatingHearts {
+0% { transform: translateY(0); opacity: 1; }
+100% { transform: translateY(-100vh); opacity: 0; }
+}
+.heart {
+position: absolute;
+bottom: 0;
+color: red;
+font-size: 24px;
+animation: floatingHearts 4s linear infinite;
+}
+@keyframes floatingSparkles {
+0% { transform: translateY(0); opacity: 1; }
+100% { transform: translateY(-100vh); opacity: 0; }
+}
+.sparkle {
+position: absolute;
+color: gold;
+font-size: 20px;
+animation: floatingSparkles 3s linear infinite;
+}
+</style>
+</head>
+<body>
+<div id="message"></div>
+<button class="btn yes-btn" id="yesButton">Yes</button>
+<button class="btn no-btn" id="noButton">No</button>
+<div id="proposal"></div>
+
+<audio id="proposalMusic" src="LYRICAL_ Main Agar Kahoon Om Shanti Om Shahrukh Khan,Deepika Padukone Sonu Nigam,Shreya Ghosal (mp3cut.net).mp3" autoplay loop></audio>
+
+<script>
+const questions = [
+"Hyy 😄 Yaar Ek Baat Kehni Thi Tumse 💌",
+"Kya Tum Mere Saath Hamesha Rahogi? ❤️",
+"Agar tumhe ek wish milti, kya tum mujhe choose karti? ✨",
+"Kya Tum Mere Dil Ki Baat Sunogi? 💖",
+"Will You Be Mine? ❤️"
+];
+
+let funnyNoResponses = [
+"Are you sure? 🤨",
+"Think Again! 🧐",
+"Mujhe lagta hai tum dubara socho! 😜",
+"No ka matlab kabhi nahi hota 😏",
+"Agar 'Yes' nahi bola to main ro dunga 😭",
+"Soch lo, last chance hai! 😬"
+];
+
+let currentQuestion = 0;
+let messageDiv = document.getElementById("message");
+let yesButton = document.getElementById("yesButton");
+let noButton = document.getElementById("noButton");
+let proposalDiv = document.getElementById("proposal");
+
+function showNextQuestion() {
+messageDiv.innerText = questions[currentQuestion];
+if (currentQuestion === questions.length - 1) {
+yesButton.onclick = revealProposal;
+noButton.style.display = "none";
+} else {
+yesButton.onclick = function() {
+currentQuestion++;
+showNextQuestion();
+};
+noButton.onclick = function() {
+let randomIndex = Math.floor(Math.random() * funnyNoResponses.length);
+alert(funnyNoResponses[randomIndex]);
+};
+noButton.style.display = "inline-block";
+}
+}
+
+function revealProposal() {
+messageDiv.style.display = "none";
+yesButton.style.display = "none";
+noButton.style.display = "none";
+proposalDiv.innerText = "I LOVE YOU SOOOOOO MUCH ❤️";
+proposalDiv.style.display = "block";
+addFloatingHearts();
+addFloatingSparkles();
+}
+
+function addFloatingHearts() {
+setInterval(() => {
+let heart = document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML = "❤️";
+heart.style.left = Math.random() * 100 + "vw";
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 5000);
+}, 500);
+}
+
+function addFloatingSparkles() {
+setInterval(() => {
+let sparkle = document.createElement("div");
+sparkle.classList.add("sparkle");
+sparkle.innerHTML = "✨";
+sparkle.style.left = Math.random() * 100 + "vw";
+document.body.appendChild(sparkle);
+setTimeout(() => sparkle.remove(), 5000);
+}, 700);
+}
+
+showNextQuestion();
+</script>
+</body>
+</html>
